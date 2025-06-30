@@ -57,12 +57,24 @@ if uploaded_file:
     quality = st.slider("🎚️ Pilih Tingkat Kompresi (Kualitas):", 10, 100, 70)
     st.markdown(f"🔧 Kualitas dipilih: **{quality}%**")
 
-    # Proses kompresi
+    # PROSES KOMPRESI dengan PROGRESS BAR
+with st.spinner("⏳ Mengompresi gambar, mohon tunggu..."):
+    progress = st.progress(0)
+
+    # Simulasikan proses bertahap (opsional tapi menarik)
+    for percent_complete in range(1, 6):
+        progress.progress(percent_complete * 20)
+        import time
+        time.sleep(0.1)  # Delay ringan agar terlihat ada proses
+
     img_bytes = io.BytesIO()
     if image.mode != "RGB":
         image = image.convert("RGB")
     image.save(img_bytes, format="JPEG", quality=quality, optimize=True)
     img_bytes.seek(0)
+
+progress.empty()  # Hapus progress bar setelah selesai
+
 
     # Ukuran file
     original_size_kb = round(len(uploaded_file.getvalue()) / 1024, 2)
