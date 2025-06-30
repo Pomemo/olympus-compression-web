@@ -57,36 +57,48 @@ if uploaded_file:
     quality = st.slider("🎚️ Pilih Tingkat Kompresi (Kualitas):", 10, 100, 70)
     st.markdown(f"🔧 Kualitas dipilih: **{quality}%**")
 
-    # Proses kompresi
-    img_bytes = io.BytesIO()
-    if image.mode != "RGB":
-        image = image.convert("RGB")
-    image.save(img_bytes, format="JPEG", quality=quality, optimize=True)
-    img_bytes.seek(0)
+    # Tombol untuk mulai kompresi
+    if st.button("⚙️ Kompres Sekarang"):
+        with st.spinner("⏳ Mengompresi gambar, mohon tunggu..."):
+            progress = st.progress(0)
 
-    # Ukuran file
-    original_size_kb = round(len(uploaded_file.getvalue()) / 1024, 2)
-    compressed_size_kb = round(len(img_bytes.getvalue()) / 1024, 2)
-    saved_percent = round((1 - (compressed_size_kb / original_size_kb)) * 100, 2)
+            # Simulasikan proses loading
+            import time
+            for i in range(1, 6):
+                time.sleep(0.1)
+                progress.progress(i * 20)
 
-    # Info hasil
-    st.markdown("---")
-    st.markdown("**📊 Hasil Kompresi:**")
-    st.markdown(f"- Ukuran Sebelum: `{original_size_kb} KB`")
-    st.markdown(f"- Ukuran Sesudah: `{compressed_size_kb} KB`")
-    st.markdown(f"- Hemat: `{saved_percent}%`")
+            # Proses kompresi
+            img_bytes = io.BytesIO()
+            if image.mode != "RGB":
+                image = image.convert("RGB")
+            image.save(img_bytes, format="JPEG", quality=quality, optimize=True)
+            img_bytes.seek(0)
 
-    # Gambar hasil kompresi
-    st.markdown("**🖼️ Setelah Kompresi:**")
-    st.image(img_bytes, use_column_width=True)
+        progress.empty()  # Hapus progress bar
 
-    # Tombol download
-    st.download_button(
-        label="💾 Download Gambar Hasil",
-        data=img_bytes,
-        file_name="olympus_compressed.jpg",
-        mime="image/jpeg"
-    )
+        # Hitung ukuran
+        original_size_kb = round(len(uploaded_file.getvalue()) / 1024, 2)
+        compressed_size_kb = round(len(img_bytes.getvalue()) / 1024, 2)
+        saved_percent = round((1 - (compressed_size_kb / original_size_kb)) * 100, 2)
+
+        # Tampilkan hasil
+        st.markdown("**📊 Hasil Kompresi:**")
+        st.markdown(f"- Ukuran Sebelum: `{original_size_kb} KB`")
+        st.markdown(f"- Ukuran Sesudah: `{compressed_size_kb} KB`")
+        st.markdown(f"- Hemat: `{saved_percent}%`")
+
+        st.markdown("**🖼️ Setelah Kompresi:**")
+        st.image(img_bytes, use_column_width=True)
+
+        # Tombol download
+        st.download_button(
+            label="💾 Download Gambar Hasil",
+            data=img_bytes,
+            file_name="olympus_compressed.jpg",
+            mime="image/jpeg"
+        )
+
 
 else:
     st.info("Silakan upload gambar terlebih dahulu untuk memulai kompresi.")
