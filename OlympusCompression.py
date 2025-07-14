@@ -58,15 +58,24 @@ if uploaded_file:
     st.markdown(f"🔧 Kualitas dipilih: **{quality}%**")
 
     # Tombol untuk mulai kompresi
-    if st.button("⚙️ Kompres Sekarang"):
-        with st.spinner("⏳ Mengompresi gambar, mohon tunggu..."):
-            progress = st.progress(0)
+   if st.button("⚙️ Kompres Sekarang"):
+    with st.spinner("⏳ Mengompresi gambar, mohon tunggu..."):
+        progress = st.progress(0)
 
-            # Simulasikan proses loading
-            import time
-            for i in range(1, 6):
-                time.sleep(0.1)
-                progress.progress(i * 20)
+        import time
+        for i in range(101):
+            time.sleep(0.1)  # total ~10 detik
+            progress.progress(i)
+
+        # Proses kompresi
+        img_bytes = io.BytesIO()
+        if image.mode != "RGB":
+            image = image.convert("RGB")
+        image.save(img_bytes, format="JPEG", quality=quality, optimize=True)
+        img_bytes.seek(0)
+
+    progress.empty()  # Hapus progress bar setelah selesai
+
 
             # Proses kompresi
             img_bytes = io.BytesIO()
@@ -102,3 +111,34 @@ if uploaded_file:
 
 else:
     st.info("Silakan upload gambar terlebih dahulu untuk memulai kompresi.")
+
+# --- Sidebar Help Menu ---
+with st.sidebar.expander("❓ Bantuan / Panduan Penggunaan"):
+    st.markdown("""
+### 🧭 Cara Menggunakan Olympus Compression
+1. **Upload gambar** dalam format `.jpg`, `.jpeg`, atau `.png`.
+2. **Atur tingkat kualitas** gambar menggunakan slider (10–100%).
+   - Semakin rendah nilainya, ukuran file akan lebih kecil.
+   - Semakin tinggi, kualitas lebih tinggi tapi ukuran besar.
+3. Klik tombol **⚙️ Kompres Sekarang** untuk memulai proses.
+4. Tunggu sebentar... ⏳ Progress bar akan muncul selama proses kompresi.
+5. Setelah selesai:
+   - Lihat perbandingan gambar **Sebelum & Sesudah**
+   - Dapatkan info ukuran & efisiensi
+   - Klik **💾 Download** untuk menyimpan hasilnya
+
+---
+
+### ℹ️ Tips Teknis
+- Format gambar yang didukung: **JPG, JPEG, PNG**
+- Kompresi dilakukan dengan format JPEG
+- Gunakan kualitas 60–80% untuk hasil optimal
+- Olympus berbasis web, **tidak perlu install apa pun**
+- Direkomendasikan menggunakan browser seperti **Chrome atau Edge**
+
+---
+
+### 🤝 Hubungi Kami
+Jika Anda mengalami kendala, silakan hubungi tim kami melalui:
+📧 olympus.support@example.com
+    """)
