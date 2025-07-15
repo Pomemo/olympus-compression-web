@@ -54,7 +54,8 @@ if uploaded_file:
     st.image(image, use_container_width=True)
 
     # Slider
-    quality = st.slider("🎚️ Pilih Tingkat Kompresi (Kualitas):", 10, 100, 70)
+    quality = st.slider("🎚️ Pilih Tingkat Kompresi (Kualitas):", 10, 95, 70)
+
     st.markdown(f"🔧 Kualitas dipilih: **{quality}%**")
 
     # Tombol kompres
