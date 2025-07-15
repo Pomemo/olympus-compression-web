@@ -48,21 +48,19 @@ uploaded_file = st.file_uploader(
 )
 
 if uploaded_file:
-    # Load gambar
     image = Image.open(uploaded_file)
     st.markdown("**🖼️ Sebelum Kompresi:**")
     st.image(image, use_container_width=True)
 
-    # Slider
-   quality = st.slider(
-    label="🎚️ Pilih Tingkat Kompresi (Kualitas):",
-    min_value=10,
-    max_value=95,
-    value=70,
-    step=1
-)
-
-
+    # Slider dengan batas maksimum 95%
+    quality = st.slider(
+        label="🎚️ Pilih Tingkat Kompresi (Kualitas):",
+        min_value=10,
+        max_value=95,
+        value=70,
+        step=1
+    )
+    st.caption("⚠️ Kualitas maksimal dibatasi hingga 95% untuk mencegah ukuran file membengkak.")
     st.markdown(f"🔧 Kualitas dipilih: **{quality}%**")
 
     # Tombol kompres
