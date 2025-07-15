@@ -56,11 +56,11 @@ if uploaded_file:
     quality = st.slider(
         label="🎚️ Pilih Tingkat Kompresi (Kualitas):",
         min_value=10,
-        max_value=95,
+        max_value=85,
         value=70,
         step=1
     )
-    st.caption("⚠️ Kualitas maksimal dibatasi hingga 95% untuk mencegah ukuran file membengkak.")
+    st.caption("⚠️ Kualitas maksimal dibatasi hingga 85% untuk mencegah ukuran file membengkak.")
     st.markdown(f"🔧 Kualitas dipilih: **{quality}%**")
 
     # Tombol kompres
